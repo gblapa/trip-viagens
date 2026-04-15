@@ -26,38 +26,39 @@ declare var google: any;
         [draggable]="false" 
         [resizable]="false"
         class="glass-dialog">
-        
-        <div class="flex flex-column gap-4 py-3" style="min-width: 350px">
-            @if (!authService.isAuthenticated()) {
-                <div class="text-center">
-                    <i class="pi pi-lock text-6xl text-blue-400 mb-3"></i>
-                    <h3 class="mt-0">Acesso Necessário</h3>
-                    <p class="text-secondary mb-4">Para garantir este pacote, faça login com o Google.</p>
-                    <div #googleBtn class="flex justify-content-center"></div>
-                </div>
-            } @else {
-                <div class="booking-summary glass p-3 border-round-xl">
-                    <p class="mt-0 mb-2 font-bold">{{ pkg?.destination }}</p>
-                    <p class="text-xs text-400 mb-3 line-height-3">{{ pkg?.description }}</p>
-                    <div class="flex justify-content-between font-bold border-top-1 border-white-alpha-10 pt-3">
-                        <span>Total</span>
-                        <span class="text-blue-400">R$ {{ pkg?.priceInReais | number:'1.2-2' }}</span>
+        <ng-template pTemplate="content">
+            <div class="flex flex-column gap-4 py-3" style="min-width: 350px">
+                @if (!authService.isAuthenticated()) {
+                    <div class="text-center">
+                        <i class="pi pi-lock text-6xl text-blue-400 mb-3"></i>
+                        <h3 class="mt-0">Acesso Necessário</h3>
+                        <p class="text-secondary mb-4">Para garantir este pacote, faça login com o Google.</p>
+                        <div #googleBtn class="flex justify-content-center"></div>
                     </div>
-                </div>
+                } @else {
+                    <div class="booking-summary glass p-3 border-round-xl">
+                        <p class="mt-0 mb-2 font-bold">{{ pkg?.destination }}</p>
+                        <p class="text-xs text-400 mb-3 line-height-3">{{ pkg?.description }}</p>
+                        <div class="flex justify-content-between font-bold border-top-1 border-white-alpha-10 pt-3">
+                            <span>Total</span>
+                            <span class="text-blue-400">R$ {{ pkg?.priceInReais | number:'1.2-2' }}</span>
+                        </div>
+                    </div>
 
-                <p-button 
-                    label="Confirmar Reserva Agora" 
-                    icon="pi pi-check-circle" 
-                    [loading]="loading"
-                    class="w-full" 
-                    styleClass="w-full p-button-lg shadow-4"
-                    (onClick)="confirmBooking()">
-                </p-button>
-                <p class="text-center text-xs text-400 m-0">
-                    Você receberá um e-mail de confirmação em instantes.
-                </p>
-            }
-        </div>
+                    <p-button 
+                        label="Confirmar Reserva Agora" 
+                        icon="pi pi-check-circle" 
+                        [loading]="loading"
+                        class="w-full" 
+                        styleClass="w-full p-button-lg shadow-4"
+                        (onClick)="confirmBooking()">
+                    </p-button>
+                    <p class="text-center text-xs text-400 m-0">
+                        Você receberá um e-mail de confirmação em instantes.
+                    </p>
+                }
+            </div>
+        </ng-template>
     </p-dialog>
   `
 })
@@ -86,11 +87,16 @@ export class BookingModalComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // Now handled by ViewChild setter
+        // Handled by setter
     }
 
     renderGoogleButton() {
-        if (typeof google !== 'undefined' && this._googleBtnRef) {
+        if (typeof google === 'undefined') {
+            setTimeout(() => this.renderGoogleButton(), 100);
+            return;
+        }
+        
+        if (this._googleBtnRef) {
             google.accounts.id.initialize({
                 client_id: '879107481329-i7go3frd1ou4i63ua6qu42q9flb0q8cu.apps.googleusercontent.com',
                 callback: (resp: any) => {

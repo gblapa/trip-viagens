@@ -30,7 +30,7 @@ import { TagModule } from 'primeng/tag';
       <div class="flex justify-content-between align-items-center">
         <div>
           <span class="text-xs text-400 block">A partir de</span>
-          <span class="text-2xl font-bold text-white">
+          <span class="text-2xl font-bold text-gray-800">
             {{ currencyService.currencySymbol() }} {{ currencyService.convert(pkg.priceInReais) | number:'1.2-2' }}
           </span>
         </div>

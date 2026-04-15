@@ -34,13 +34,11 @@ export class CurrencyService {
         return valueBRL / rate;
     }
 
-    get currencySymbol() {
-        return computed(() => {
-            switch (this.selectedCurrency()) {
-                case 'USD': return '$';
-                case 'EUR': return '€';
-                default: return 'R$';
-            }
-        });
-    }
+    currencySymbol = computed(() => {
+        switch (this.selectedCurrency()) {
+            case 'USD': return '$';
+            case 'EUR': return '€';
+            default: return 'R$';
+        }
+    });
 }
