@@ -65,7 +65,7 @@ export class BookingModalComponent implements AfterViewInit {
     @Input() visible = false;
     @Output() visibleChange = new EventEmitter<boolean>();
     @Input() pkg: TravelPackage | null = null;
-    @ViewChild('googleBtn') googleBtn!: ElementRef;
+    private _googleBtnRef?: ElementRef;
 
     authService = inject(AuthService);
     bookingService = inject(BookingService);
@@ -78,19 +78,26 @@ export class BookingModalComponent implements AfterViewInit {
     private readonly EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
     private readonly EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
 
+    @ViewChild('googleBtn') set googleBtn(el: ElementRef) {
+        if (el && !this._googleBtnRef) {
+            this._googleBtnRef = el;
+            setTimeout(() => this.renderGoogleButton(), 0);
+        }
+    }
+
     ngAfterViewInit() {
-        this.renderGoogleButton();
+        // Now handled by ViewChild setter
     }
 
     renderGoogleButton() {
-        if (typeof google !== 'undefined' && this.googleBtn) {
+        if (typeof google !== 'undefined' && this._googleBtnRef) {
             google.accounts.id.initialize({
                 client_id: '879107481329-i7go3frd1ou4i63ua6qu42q9flb0q8cu.apps.googleusercontent.com',
                 callback: (resp: any) => {
                     this.authService.handleGoogleSignIn(resp);
                 }
             });
-            google.accounts.id.renderButton(this.googleBtn.nativeElement, { theme: 'filled_black', size: 'large' });
+            google.accounts.id.renderButton(this._googleBtnRef.nativeElement, { theme: 'filled_black', size: 'large' });
         }
     }
 

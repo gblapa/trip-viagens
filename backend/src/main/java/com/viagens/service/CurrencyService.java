@@ -28,8 +28,8 @@ public class CurrencyService {
             String response = restTemplate.getForObject(API_URL, String.class);
             JsonNode root = objectMapper.readTree(response);
 
-            rates.put("USD", root.path("USDBRL").path("bid").decimalValue());
-            rates.put("EUR", root.path("EURBRL").path("bid").decimalValue());
+            rates.put("USD", new BigDecimal(root.path("USDBRL").path("bid").asText()));
+            rates.put("EUR", new BigDecimal(root.path("EURBRL").path("bid").asText()));
             rates.put("BRL", BigDecimal.ONE);
 
         } catch (Exception e) {

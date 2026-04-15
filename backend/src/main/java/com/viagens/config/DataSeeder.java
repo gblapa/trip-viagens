@@ -28,7 +28,7 @@ public class DataSeeder implements CommandLineRunner {
                                                         .priceInReais(new BigDecimal("7500.00"))
                                                         .durationDays(7)
                                                         .imageUrl(
-                                                                        "https://images.unsplash.com/photo-1512100356956-c1227c3317bb?auto=format&fit=crop&w=800&q=80")
+                                                                        "https://images.unsplash.com/photo-1552074284-5e88ef1aef18?auto=format&fit=crop&w=800&q=80")
                                                         .maxSlots(20)
                                                         .availableSlots(15)
                                                         .build(),

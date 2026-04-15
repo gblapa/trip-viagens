@@ -18,7 +18,7 @@ export class CurrencyService {
     }
 
     loadRates() {
-        this.http.get<CurrencyRates>(this.apiUrl).subscribe(newRates => {
+        this.http.get<CurrencyRates>(`${this.apiUrl}?t=${new Date().getTime()}`).subscribe(newRates => {
             this.rates.set(newRates);
         });
     }
@@ -28,7 +28,8 @@ export class CurrencyService {
     }
 
     convert(valueBRL: number): number {
-        const rate = this.rates()[this.selectedCurrency()];
+        let rate = this.rates()[this.selectedCurrency()];
+        if (!rate) rate = 1; // fallback se for undefined ou 0
         if (this.selectedCurrency() === 'BRL') return valueBRL;
         return valueBRL / rate;
     }
