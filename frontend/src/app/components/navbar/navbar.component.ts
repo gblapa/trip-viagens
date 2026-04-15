@@ -14,7 +14,7 @@ import { AvatarModule } from 'primeng/avatar';
   template: `
     <nav class="flex justify-content-between align-items-center p-3 glass mx-3 mt-3">
       <div class="flex align-items-center gap-2">
-        <i class="pi pi-send text-blue-400 text-3xl"></i>
+        <i class="pi pi-send text-yellow-400 text-3xl"></i>
         <h1 class="m-0 text-xl font-bold gradient-text">Trip.Viagens</h1>
       </div>
 
